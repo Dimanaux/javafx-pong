@@ -1,4 +1,4 @@
-package sample;
+package main.java.com.example.pong;
 
 import java.io.BufferedReader;
 import java.io.IOException;

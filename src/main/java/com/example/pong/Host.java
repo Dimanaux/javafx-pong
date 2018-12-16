@@ -1,4 +1,4 @@
-package sample;
+package main.java.com.example.pong;
 
 import java.io.IOException;
 import java.io.PrintWriter;
