@@ -1,16 +1,13 @@
 package sample;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.net.Socket;
 
-public class Host extends AbstractSocketListener implements Observable {
-    private static final int DEFAULT_PORT = 6789;
-
+public class Host extends Computer implements Observable, Observer {
     private final ServerSocket serverSocket;
-    private Socket slave;
 
-    private Host() {
+    Host() {
         try {
             serverSocket = new ServerSocket(DEFAULT_PORT);
         } catch (IOException e) {
@@ -19,19 +16,25 @@ public class Host extends AbstractSocketListener implements Observable {
         }
     }
 
-    void run() {
-        connect();
-        new Thread(() -> super.listen(slave)).start();
-    }
-
     private void connect() {
         while (true) {
             try {
-                slave = serverSocket.accept();
+                super.socket = serverSocket.accept();
+                super.writer = new PrintWriter(socket.getOutputStream());
                 break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
