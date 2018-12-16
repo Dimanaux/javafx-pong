@@ -1,39 +1,27 @@
 package sample;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Host extends AbstractObservable implements Observable {
+public class Host extends AbstractSocketListener implements Observable {
+    private static final int DEFAULT_PORT = 6789;
+
     private final ServerSocket serverSocket;
     private Socket slave;
 
-    private Host(int port) {
+    private Host() {
         try {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(DEFAULT_PORT);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException("Cannot create socket on port " + DEFAULT_PORT);
         }
     }
 
     void run() {
         connect();
-        new Thread(this::listen).start();
-    }
-
-    private void listen() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(slave.getInputStream()))) {
-            String s = reader.readLine();
-            while (s != null) {
-                this.next(s);
-                s = reader.readLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> super.listen(slave)).start();
     }
 
     private void connect() {
