@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -25,12 +27,12 @@ public class Paddle implements Observer {
         rectangle.setY(y);
     }
 
-    public Rectangle asView() {
+    public Node asNode() {
         return rectangle;
     }
 
     private void moveVertically(int step) {
-        rectangle.setY(rectangle.getY() + STEP);
+        rectangle.setY(rectangle.getY() + step);
     }
 
     public void moveUp() {
@@ -43,14 +45,13 @@ public class Paddle implements Observer {
 
     @Override
     public void onNext(String message) {
-        switch (message) {
-            case "UP":
+        KeyCode code = KeyCode.valueOf(message);
+        switch (code) {
+            case UP:
                 moveUp();
                 break;
-            case "DOWN":
+            case DOWN:
                 moveDown();
-                break;
-            default:
                 break;
         }
     }
