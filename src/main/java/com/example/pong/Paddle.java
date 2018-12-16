@@ -1,4 +1,4 @@
-package main.java.com.example.pong;
+package com.example.pong;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;

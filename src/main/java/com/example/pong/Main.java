@@ -1,4 +1,4 @@
-package main.java.com.example.pong;
+package com.example.pong;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
