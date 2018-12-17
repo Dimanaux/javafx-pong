@@ -10,13 +10,14 @@ public class Host extends Computer implements Observable, Observer {
     Host() {
         try {
             serverSocket = new ServerSocket(DEFAULT_PORT);
+            connect();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Cannot create socket on port " + DEFAULT_PORT);
+            throw new RuntimeException("Cannot start on port " + DEFAULT_PORT);
         }
     }
 
-    private void connect() {
+    public void connect() {
         while (true) {
             try {
                 super.socket = serverSocket.accept();
