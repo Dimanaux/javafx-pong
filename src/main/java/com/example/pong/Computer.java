@@ -29,7 +29,7 @@ public abstract class Computer implements Runnable, Observable, Observer {
     Socket socket;
     PrintWriter writer;
 
-    private void listen(Socket socket) {
+    public final void listen(Socket socket) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             String s = reader.readLine();
             while (s != null) {
@@ -39,11 +39,6 @@ public abstract class Computer implements Runnable, Observable, Observer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void run() {
-        listen(socket);
     }
 
     public void destroy() {

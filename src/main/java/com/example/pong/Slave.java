@@ -14,4 +14,9 @@ public class Slave extends Computer implements Observable, Observer {
             throw new RuntimeException("Cannot connect to " + hostName);
         }
     }
+
+    @Override
+    public void run() {
+        super.listen(socket);
+    }
 }

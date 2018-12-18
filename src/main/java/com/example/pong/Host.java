@@ -10,7 +10,6 @@ public class Host extends Computer implements Observable, Observer {
     Host() {
         try {
             serverSocket = new ServerSocket(DEFAULT_PORT);
-            connect();
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Cannot start on port " + DEFAULT_PORT);
@@ -37,5 +36,11 @@ public class Host extends Computer implements Observable, Observer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void run() {
+        connect();
+        super.listen(socket);
     }
 }

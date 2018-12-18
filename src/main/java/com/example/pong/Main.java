@@ -7,67 +7,59 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class Main extends Application {
-    private final static int S_WIDTH = 800;
-    private final static int S_HEIGHT = 600;
+public abstract class Main extends Application {
+    public final static int S_WIDTH = 800;
+    public final static int S_HEIGHT = 600;
+    public final static int PADDLE_CENTER = (S_HEIGHT - Paddle.DEFAULT_HEIGHT) / 2;
+    public final static int BALL_CENTER_V = (S_HEIGHT - Ball.LENGTH) / 2;
+    public final static int BALL_CENTER_H = (S_WIDTH - Ball.LENGTH) / 2;
+    public final static int STRIPE_WIDTH = 10;
+    public final static Color STRIPE_COLOR = Color.rgb(255, 255, 255, 0.5);
+    public final static int STRIPE_POSITION = (S_WIDTH - STRIPE_WIDTH) / 2;
 
-    private AnchorPane root;
-    private Scene scene;
-    private Stage stage;
+    protected AnchorPane root;
+    protected Scene scene;
+    protected Stage stage;
+
+    protected Ball ball;
+    protected Paddle p1;
+    protected Paddle p2;
+
+    protected Computer connection;
+
+    protected final List<String> args = getParameters().getRaw();
+
+    protected SceneObservable userInput;
+
+
+    public abstract void init();
 
     @Override
     public void start(Stage primaryStage) {
         this.stage = primaryStage;
-        initialize();
+        prepareWindow();
+        initViews();
+
+        root.getChildren().add(p1.asNode());
+        root.getChildren().add(p2.asNode());
+        root.getChildren().add(ball.asNode());
+
         primaryStage.show();
+
+        init();
+
+        connection.run();
     }
 
-    private void initialize() {
-        prepareWindow();
+    private void initViews() {
         stage.setScene(scene);
         root.getChildren().add(createStripe());
 
-        final int PADDLE_CENTER = (S_HEIGHT - Paddle.DEFAULT_HEIGHT) / 2;
-
-        final Paddle p1 = new Paddle(20, PADDLE_CENTER);
-        root.getChildren().add(p1.asNode());
-
-        final Paddle p2 = new Paddle(S_WIDTH - 20 - Paddle.DEFAULT_WIDTH, PADDLE_CENTER);
-        root.getChildren().add(p2.asNode());
-
-        final Ball b = createBall();
-        root.getChildren().add(b.asNode());
-
-        List<String> args = getParameters().getRaw();
-
-        Computer connection;
-        if (args.size() > 0) {
-            connection = new Slave(args.get(0));
-        } else {
-            connection = new Host();
-        }
-
-        connection.addObserver(p2);
-
-        Observable userInput = new Observable() {
-            List<Observer> observers = new LinkedList<>();
-            @Override
-            public List<Observer> getObservers() {
-                return observers;
-            }
-        };
-        scene.setOnKeyPressed(e -> userInput.next(e.getCode().toString()));
-        userInput.addObserver(connection);
-        userInput.addObserver(p1);
-    }
-
-    private static Ball createBall() {
-        final int BALL_CENTER_V = (S_HEIGHT - Ball.LENGTH) / 2;
-        final int BALL_CENTER_H = (S_WIDTH - Ball.LENGTH) / 2;
-        return new Ball(BALL_CENTER_H, BALL_CENTER_V);
+        p1 = new Paddle(20, PADDLE_CENTER);
+        p2 = new Paddle(S_WIDTH - 20 - Paddle.DEFAULT_WIDTH, PADDLE_CENTER);
+        ball = new Ball(BALL_CENTER_H, BALL_CENTER_V);
     }
 
     private void prepareWindow() {
@@ -80,18 +72,9 @@ public class Main extends Application {
     }
 
     private static Rectangle createStripe() {
-        final int STRIPE_WIDTH = 10;
-
-        final Color STRIPE_COLOR = Color.rgb(255, 255, 255, 0.5);
-
         Rectangle stripe = new Rectangle(STRIPE_WIDTH, S_HEIGHT, STRIPE_COLOR);
-        final int STRIPE_POSITION = (S_WIDTH - STRIPE_WIDTH) / 2;
         stripe.setX(STRIPE_POSITION);
         stripe.setY(0);
         return stripe;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
