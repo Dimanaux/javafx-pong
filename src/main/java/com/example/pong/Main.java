@@ -29,12 +29,9 @@ public abstract class Main extends Application {
 
     protected Computer connection;
 
-    protected final List<String> args = getParameters().getRaw();
+    protected List<String> args;
 
     protected SceneObservable userInput;
-
-
-    public abstract void init();
 
     @Override
     public void start(Stage primaryStage) {
@@ -42,33 +39,37 @@ public abstract class Main extends Application {
         prepareWindow();
         initViews();
 
+        args = getParameters().getRaw();
+
         root.getChildren().add(p1.asNode());
         root.getChildren().add(p2.asNode());
         root.getChildren().add(ball.asNode());
 
         primaryStage.show();
 
-        init();
+        userInput = new SceneObservable(scene);
 
-        connection.run();
+//        init();
+
+//        connection.run();
     }
 
     private void initViews() {
-        stage.setScene(scene);
-        root.getChildren().add(createStripe());
+        this.stage.setScene(scene);
+        this.root.getChildren().add(createStripe());
 
-        p1 = new Paddle(20, PADDLE_CENTER);
-        p2 = new Paddle(S_WIDTH - 20 - Paddle.DEFAULT_WIDTH, PADDLE_CENTER);
-        ball = new Ball(BALL_CENTER_H, BALL_CENTER_V);
+        this.p1 = new Paddle(20, PADDLE_CENTER);
+        this.p2 = new Paddle(S_WIDTH - 20 - Paddle.DEFAULT_WIDTH, PADDLE_CENTER);
+        this.ball = new Ball(BALL_CENTER_H, BALL_CENTER_V);
     }
 
     private void prepareWindow() {
-        root = new AnchorPane();
-        scene = new Scene(root, S_WIDTH, S_HEIGHT, Color.BLACK);
-        stage.setResizable(false);
-        stage.setTitle("Pong!");
-        stage.setHeight(S_HEIGHT);
-        stage.setWidth(S_WIDTH);
+        this.root = new AnchorPane();
+        this.scene = new Scene(root, S_WIDTH, S_HEIGHT, Color.BLACK);
+        this.stage.setResizable(false);
+        this.stage.setTitle("Pong!");
+        this.stage.setHeight(S_HEIGHT);
+        this.stage.setWidth(S_WIDTH);
     }
 
     private static Rectangle createStripe() {
