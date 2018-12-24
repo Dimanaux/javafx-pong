@@ -2,28 +2,35 @@ package com.example.pong;
 
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
 
 public class Ball {
-    public static final int LENGTH = 20;
+    public static final double RADIUS = 10;
 
-    private Rectangle ball;
+    private Circle ball;
 
     public Ball() {
-        ball = new Rectangle(
-                LENGTH,
-                LENGTH,
+        ball = new Circle(
+                RADIUS,
                 Color.WHITE
         );
     }
 
     public Ball(double x, double y) {
         this();
-        ball.setX(x);
-        ball.setY(y);
+//        ball.setLayoutX(x);
+//        ball.setLayoutY(y);
+        ball.setCenterX(x);
+        ball.setCenterY(y);
     }
 
     public Node asNode() {
         return ball;
     }
+
+    public void move(double deltaX, double deltaY) {
+        this.ball.setLayoutX(ball.getLayoutX() + deltaX);
+        this.ball.setLayoutY(ball.getLayoutY() + deltaY);
+    }
+
 }
