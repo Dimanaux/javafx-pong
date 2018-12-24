@@ -5,18 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
 
-public abstract class Computer implements Runnable, Observable, Observer {
+public abstract class Computer extends AbstractObservable implements Runnable, Observable, Observer {
     static final int DEFAULT_PORT = 6789;
-
-    private final List<Observer> observers = new LinkedList<>();
-
-    @Override
-    public final List<Observer> getObservers() {
-        return observers;
-    }
 
     @Override
     public void onNext(String message) {

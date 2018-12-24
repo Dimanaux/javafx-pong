@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 
-public class Host extends Computer implements Observable, Observer {
+public class Host extends Computer implements Observable, Observer, Runnable {
     private final ServerSocket serverSocket;
 
     Host() {
