@@ -13,8 +13,6 @@ public abstract class Main extends Application {
     public final static int S_WIDTH = 800;
     public final static int S_HEIGHT = 600;
     public final static int PADDLE_CENTER = (S_HEIGHT - Paddle.DEFAULT_HEIGHT) / 2;
-    public final static int BALL_CENTER_V = (S_HEIGHT - Ball.LENGTH) / 2;
-    public final static int BALL_CENTER_H = (S_WIDTH - Ball.LENGTH) / 2;
     public final static int STRIPE_WIDTH = 10;
     public final static Color STRIPE_COLOR = Color.rgb(255, 255, 255, 0.5);
     public final static int STRIPE_POSITION = (S_WIDTH - STRIPE_WIDTH) / 2;
@@ -33,6 +31,8 @@ public abstract class Main extends Application {
 
     protected SceneObservable userInput;
 
+    protected BallController ballController;
+
     @Override
     public void start(Stage primaryStage) {
         this.stage = primaryStage;
@@ -41,17 +41,11 @@ public abstract class Main extends Application {
 
         args = getParameters().getRaw();
 
-        root.getChildren().add(p1.asNode());
-        root.getChildren().add(p2.asNode());
-        root.getChildren().add(ball.asNode());
+        root.getChildren().addAll(p1.asNode(), p2.asNode(), ball.asNode());
 
         primaryStage.show();
 
         userInput = new SceneObservable(scene);
-
-//        init();
-
-//        connection.run();
     }
 
     private void initViews() {
@@ -60,7 +54,9 @@ public abstract class Main extends Application {
 
         this.p1 = new Paddle(20, PADDLE_CENTER);
         this.p2 = new Paddle(S_WIDTH - 20 - Paddle.DEFAULT_WIDTH, PADDLE_CENTER);
-        this.ball = new Ball(BALL_CENTER_H, BALL_CENTER_V);
+
+        this.ballController = new BallController(root.getBoundsInLocal(), p1, p2);
+        this.ball = ballController.getBall();
     }
 
     private void prepareWindow() {

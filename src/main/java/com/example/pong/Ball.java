@@ -1,6 +1,5 @@
 package com.example.pong;
 
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -18,19 +17,17 @@ public class Ball {
 
     public Ball(double x, double y) {
         this();
-//        ball.setLayoutX(x);
-//        ball.setLayoutY(y);
         ball.setCenterX(x);
         ball.setCenterY(y);
     }
 
-    public Node asNode() {
+    public Circle asNode() {
         return ball;
     }
 
     public void move(double deltaX, double deltaY) {
-        this.ball.setLayoutX(ball.getLayoutX() + deltaX);
-        this.ball.setLayoutY(ball.getLayoutY() + deltaY);
+        this.ball.setCenterX(ball.getCenterX() + deltaX);
+        this.ball.setCenterY(ball.getCenterY() + deltaY);
     }
 
 }

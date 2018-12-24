@@ -1,5 +1,6 @@
 package com.example.pong;
 
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -13,18 +14,18 @@ public class Paddle implements Observer {
 
     private Rectangle rectangle;
 
-    public Paddle() {
+    public Paddle(double x, double y) {
         rectangle = new Rectangle(
                 DEFAULT_WIDTH,
                 DEFAULT_HEIGHT,
                 Color.WHITE
         );
-    }
-
-    public Paddle(double x, double y) {
-        this();
         rectangle.setX(x);
         rectangle.setY(y);
+    }
+
+    public Paddle(Bounds bounds, double y) {
+        this((bounds.getMaxY() - bounds.getMinY() + DEFAULT_HEIGHT) / 2, y);
     }
 
     public Node asNode() {
