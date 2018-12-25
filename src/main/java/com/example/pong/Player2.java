@@ -1,5 +1,6 @@
 package com.example.pong;
 
+import javafx.animation.AnimationTimer;
 import javafx.stage.Stage;
 
 public class Player2 extends Main {
@@ -12,10 +13,20 @@ public class Player2 extends Main {
         super.start(primaryStage);
         connection = new Slave("localhost");
 
-        connection.addObserver(p2);
+        connection.addObserver(p1);
         userInput.addObserver(connection);
-        userInput.addObserver(p1);
+        userInput.addObserver(p2);
 
         new Thread(connection).start();
+
+//        connection.run();
+
+        AnimationTimer animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                ballController.move();
+            }
+        };
+        animationTimer.start();
     }
 }

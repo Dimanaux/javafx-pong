@@ -17,8 +17,9 @@ public class Player1 extends Main {
         userInput.addObserver(connection);
         userInput.addObserver(p1);
 
-        new Thread(connection).start();
 
+        new Thread(connection).start();
+//        connection.run();
 
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
