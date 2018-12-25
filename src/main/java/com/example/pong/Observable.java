@@ -1,6 +1,7 @@
 package com.example.pong;
 
 import java.util.List;
+import java.util.Objects;
 
 public interface Observable {
     List<Observer> getObservers();
@@ -14,6 +15,6 @@ public interface Observable {
     }
 
     default void next(String s) {
-        getObservers().forEach(o -> o.onNext(s));
+        getObservers().stream().filter(Objects::nonNull).forEach(o -> o.onNext(s));
     }
 }
