@@ -26,8 +26,7 @@ public class Ball {
     }
 
     public void move(double deltaX, double deltaY) {
-        ball.setCenterX(ball.getCenterX() + deltaX);
-        ball.setCenterY(ball.getCenterY() + deltaY);
+        setPosition(ball.getCenterX() + deltaX, ball.getCenterY() + deltaY);
     }
 
     void setPosition(double x, double y) {
