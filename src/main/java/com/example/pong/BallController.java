@@ -9,6 +9,8 @@ import static com.example.pong.DirectionVertical.UP;
 
 public class BallController extends AbstractObservable implements Observable {
     private static final double BALL_SPEED = 2;
+    private final double CENTER_X;
+    private final double CENTER_Y;
 
     private final Ball ball;
     private final Paddle p1;
@@ -19,15 +21,22 @@ public class BallController extends AbstractObservable implements Observable {
 
     public BallController(Bounds bounds, Paddle p1, Paddle p2) {
         this.bounds = bounds;
-
-        double CENTER_X = (bounds.getMaxX() - bounds.getMinX()) / 2.0;
-        double CENTER_Y = (bounds.getMaxY() - bounds.getMinY()) / 2.0;
-
-        this.ball = new Ball(CENTER_X, CENTER_Y);
         this.p1 = p1;
         this.p2 = p2;
+
+        CENTER_X = (bounds.getMaxX() - bounds.getMinX()) / 2.0;
+        CENTER_Y = (bounds.getMaxY() - bounds.getMinY()) / 2.0;
+
+        this.ball = new Ball();
+
+        reset();
+    }
+
+    private void reset() {
         this.directionX = LEFT;
         this.directionY = UP;
+
+        ball.setPosition(CENTER_X, CENTER_Y);
     }
 
     public Ball getBall() {
@@ -64,7 +73,8 @@ public class BallController extends AbstractObservable implements Observable {
         }
 
         if (!bounds.contains(ball.asNode().getCenterX(), ball.asNode().getCenterY())) {
-            next("ball:reset");
+            next("BALL:RESET");
+            reset();
         }
     }
 }
