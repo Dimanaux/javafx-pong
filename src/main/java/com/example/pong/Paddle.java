@@ -46,14 +46,18 @@ public class Paddle implements Observer {
 
     @Override
     public void onNext(String message) {
-        KeyCode code = KeyCode.valueOf(message);
-        switch (code) {
-            case UP:
-                moveUp();
-                break;
-            case DOWN:
-                moveDown();
-                break;
+        try {
+            KeyCode code = KeyCode.valueOf(message);
+            switch (code) {
+                case UP:
+                    moveUp();
+                    break;
+                case DOWN:
+                    moveDown();
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(message);
         }
     }
 }
