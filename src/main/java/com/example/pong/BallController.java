@@ -7,7 +7,7 @@ import static com.example.pong.DirectionHorizontal.RIGHT;
 import static com.example.pong.DirectionVertical.DOWN;
 import static com.example.pong.DirectionVertical.UP;
 
-public class BallController extends AbstractObservable implements Observable {
+public class BallController extends AbstractObservable implements Observable, Observer {
     private static final double BALL_SPEED = 2;
     private final double CENTER_X;
     private final double CENTER_Y;
@@ -74,6 +74,13 @@ public class BallController extends AbstractObservable implements Observable {
 
         if (!bounds.contains(ball.asNode().getCenterX(), ball.asNode().getCenterY())) {
             next("BALL:RESET");
+            reset();
+        }
+    }
+
+    @Override
+    public void onNext(String message) {
+        if ("BALL:RESET".equals(message)) {
             reset();
         }
     }
