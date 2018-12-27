@@ -18,8 +18,7 @@ public class Player2 extends Main {
         userInput.addObserver(p2);
 
         new Thread(connection).start();
-
-//        connection.run();
+        connection.addObserver(ballController);
 
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
