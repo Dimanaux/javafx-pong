@@ -11,7 +11,7 @@ public class Player2 extends Main {
     @Override
     public void start(Stage primaryStage) {
         super.start(primaryStage);
-        connection = new Slave("localhost");
+        connection = new Slave(args.size() > 0 ? args.get(0) : "localhost");
 
         connection.addObserver(p1);
         userInput.addObserver(connection);

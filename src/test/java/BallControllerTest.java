@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BallControllerTest {
-    static Bounds bounds;
-    static BallController ballController;
-    static Paddle[] paddles;
-    static Circle ball;
+    private static Bounds bounds;
+    private static BallController ballController;
+    private static Paddle[] paddles;
+    private static Circle ball;
 
     @BeforeAll
     static void setUpObstacles() {
