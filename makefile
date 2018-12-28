@@ -3,7 +3,6 @@ build:
 	javac -d out/production/pong -sourcepath src/main/java -cp out/production/pong src/main/java/com/example/pong/Player1.java
 	javac -d out/production/pong -sourcepath src/main/java -cp out/production/pong src/main/java/com/example/pong/Player2.java
 
-
 rebuild:
 	make clean
 	make build
@@ -14,7 +13,7 @@ clean:
 run1:
 	java -cp out/production/pong com.example.pong.Player1
 
-run1:
+run2:
 	java -cp out/production/pong com.example.pong.Player2
 
 jar:
